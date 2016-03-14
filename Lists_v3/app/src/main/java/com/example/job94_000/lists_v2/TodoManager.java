@@ -10,16 +10,23 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /**
- * Created by job94_000 on 13-3-2016.
+ * TodoManager is a Singleton class that manages information about TodoLists by writing and
+ * reading from files.
  */
 public class TodoManager {
-
+    /**
+     * Create global variables
+     */
     private static Context appContext;
     private static TodoManager instance = null;
     private TodoManager() {
         // Exists only to defeat instantiation.
     }
 
+    /**
+     * Get an instance of TodoManager if there has not yet been one created, the context of the
+     * using App is being send with for file writing and reading purposes
+     */
     public static TodoManager getInstance(Context context) {
         if (instance == null) {
             instance = new TodoManager();
@@ -28,6 +35,9 @@ public class TodoManager {
         return instance;
     }
 
+    /**
+     * Try to write a given list of TodoLists to AllLists.dat
+     */
     public void writeTodos(ArrayList<TodoList> newLists) {
         try {
             FileOutputStream fileOutputStream = appContext.openFileOutput("AllLists.dat", appContext.MODE_PRIVATE);
@@ -42,6 +52,9 @@ public class TodoManager {
         }
     }
 
+    /**
+     * Try to read TodoLists from Alllists.dat, if not possible, create an example list
+     */
     public ArrayList<TodoList> readTodos() {
         ArrayList<TodoList> todoLists = new ArrayList<>();
         try {

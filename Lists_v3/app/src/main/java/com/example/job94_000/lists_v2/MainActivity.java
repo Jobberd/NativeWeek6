@@ -48,11 +48,7 @@ public class MainActivity extends AppCompatActivity
     TodoManager todoManager;
     ArrayList<TodoList> todoLists;
     TodoList currentTodoList;
-
-    Hashtable<String, ArrayList<String>> allLists = new Hashtable<>();
-    Enumeration listNames;
     ArrayList<String> currentList = new ArrayList<>();
-    String currentListName;
     ListView indexListView;
     EditText inputText;
     TextView titleText;
@@ -69,6 +65,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Create a TodoManager which then reads the current TodoLists and returns them
         todoManager = TodoManager.getInstance(getApplicationContext());
         todoLists = todoManager.readTodos();
         for (TodoList list : todoLists) {
@@ -108,7 +105,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * onSaveInstanceState() writes a file with the items of the list stored, so it can be reaccessed later.
+     * onSaveInstanceState() writes a file with the items of the list stored,
+     * so it can be reaccessed later.
      */
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -131,7 +129,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Sets the listviewadapter to the current list
+     * Sets the listviewadapter to the current list and make an ArrayList of Strings of all current
+     * TodoList items
      */
     private void setListViewAdapter() {
         currentList = new ArrayList<>();
@@ -145,7 +144,9 @@ public class MainActivity extends AppCompatActivity
         setTitleLongClick();
     }
 
-
+    /**
+     * Used to check for already checked items in the TodoItems from the current list
+     */
 //    private void checkForCheckedItems() {
 //        for (int i = 0; i < myIndexAdapter.getCount(); i++) {
 //            String listItem = myIndexAdapter.getItem(i);
@@ -159,8 +160,8 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * On longclicking the title TextView, the user can remove the current list. It the searches for
-     * the right menu item, removes it and removes the list from the hashtable. It creates an
-     * empty list when the last list is removed to prevent crashing
+     * the right menu item, removes it and removes the list from the locally stored TodoList.
+     * It creates an empty list when the last list is removed to prevent crashing
      */
     private void setTitleLongClick() {
         titleText.setOnLongClickListener(new View.OnLongClickListener() {
@@ -205,7 +206,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 //    /*
-//     *
+//     * Make the user be able to check and uncheck list items by clicking them
 //     */
 //    private void setListItemClick() {
 //        indexListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -321,7 +322,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Stolen from the internet to update my navigationView during runtime
+     * Stolen from the internet to update the navigationView during runtime
      */
     private void editMenu() {
         for (int i = 0, count = navigationView.getChildCount(); i < count; i++) {
